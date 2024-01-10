@@ -20,6 +20,7 @@ import MovieSearchScreen from "./Screen/MovieSearchScreen";
 import PopularScreen from "./Screen/PopularScreen";
 import InitialScreen from "./Screen/InitialScreen";
 import RefreshToken from "./RefreshToken";
+import { StatusBar } from "expo-status-bar";
 
 const { store, persistor } = configureStore();
 const Stack = createStackNavigator();
@@ -29,42 +30,54 @@ const screenOptions = {
 
 const SignedInStack = () => {
   return (
-    <ReduxProvider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RefreshToken />
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="InitialScreen"
-            screenOptions={screenOptions}
-          >
-            <Stack.Screen name="InitialScreen" component={InitialScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="SignupScreen" component={SignupScreen} />
-            <Stack.Screen name="VideoScreen" component={VideoScreen} />
-            <Stack.Screen name="SearchScreen" component={SearchScreen} />
-            <Stack.Screen name="NewVideoScreen" component={NewVideoScreen} />
-            <Stack.Screen name="MovieScreen" component={MovieScreen} />
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-            <Stack.Screen
-              name="VideoSearchScreen"
-              component={VideoSearchScreen}
-            />
-            <Stack.Screen name="EditVideoScreen" component={EditVideoScreen} />
-            <Stack.Screen
-              name="DeleteVideoScreen"
-              component={DeleteVideoScreen}
-            />
-            <Stack.Screen name="VideoPlayScreen" component={VideoPlayScreen} />
-            <Stack.Screen name="MoviePlayScreen" component={MoviePlayScreen} />
-            <Stack.Screen
-              name="MovieSearchScreen"
-              component={MovieSearchScreen}
-            />
-            <Stack.Screen name="PopularScreen" component={PopularScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-    </ReduxProvider>
+    <>
+      <ReduxProvider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <RefreshToken />
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="InitialScreen"
+              screenOptions={screenOptions}
+            >
+              <Stack.Screen name="InitialScreen" component={InitialScreen} />
+              <Stack.Screen name="LoginScreen" component={LoginScreen} />
+              <Stack.Screen name="SignupScreen" component={SignupScreen} />
+              <Stack.Screen name="VideoScreen" component={VideoScreen} />
+              <Stack.Screen name="SearchScreen" component={SearchScreen} />
+              <Stack.Screen name="NewVideoScreen" component={NewVideoScreen} />
+              <Stack.Screen name="MovieScreen" component={MovieScreen} />
+              <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+              <Stack.Screen
+                name="VideoSearchScreen"
+                component={VideoSearchScreen}
+              />
+              <Stack.Screen
+                name="EditVideoScreen"
+                component={EditVideoScreen}
+              />
+              <Stack.Screen
+                name="DeleteVideoScreen"
+                component={DeleteVideoScreen}
+              />
+              <Stack.Screen
+                name="VideoPlayScreen"
+                component={VideoPlayScreen}
+              />
+              <Stack.Screen
+                name="MoviePlayScreen"
+                component={MoviePlayScreen}
+              />
+              <Stack.Screen
+                name="MovieSearchScreen"
+                component={MovieSearchScreen}
+              />
+              <Stack.Screen name="PopularScreen" component={PopularScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </ReduxProvider>
+      <StatusBar style="light" />
+    </>
   );
 };
 

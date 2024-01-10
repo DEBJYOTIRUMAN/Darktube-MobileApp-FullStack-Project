@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   View,
@@ -133,136 +132,143 @@ const LoginScreen = ({ navigation }) => {
       });
   }, [Token]);
   return (
-    <ImageBackground source={require("../assets/image/background2.jpg")} style={{flex: 1}} resizeMode="cover">
-      <KeyboardAvoidingView
-      style={styles.avoidKeyboard}
-      behavior="padding"
-      enabled
-      keyboardVerticalOffset={-1000}
-    >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={styles.container}>
-          <View
-            style={{
-              marginTop: 150,
-              alignSelf: "flex-start",
-              paddingHorizontal: 30,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 36,
-                fontWeight: "bold",
-                color: "#7842e5",
-              }}
-              adjustsFontSizeToFit
-            >
-              Login
-            </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "#7842e5",
-                marginVertical: 10,
-              }}
-            >
-              Please sign in to continue.
-            </Text>
-          </View>
-          <View style={styles.form}>
-            <Formik
-              initialValues={{
-                email: "",
-                password: "",
-              }}
-              onSubmit={(values) => {
-                controlSubmit(values);
-              }}
-              validationSchema={validationSchema}
-              validateOnMount={true}
-            >
-              {({
-                handleChange,
-                values,
-                handleSubmit,
-                errors,
-                isValid,
-                touched,
-                handleBlur,
-              }) => (
-                <>
-                  <InputField
-                    name="email"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    iconName="mail"
-                    iconColor="grey"
-                  />
-                  <ErrorMessage errorValue={touched.email && errors.email} />
-
-                  <InputField
-                    name="password"
-                    value={values.password}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    placeholder="Password"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                    iconName="lock"
-                    iconColor="grey"
-                  />
-                  <ErrorMessage
-                    errorValue={touched.password && errors.password}
-                  />
-
-                  <InputButton
-                    onPress={handleSubmit}
-                    disabled={!isValid}
-                    buttonType="solid"
-                    title="LOGIN"
-                    buttonColor="#7842e5"
-                  />
-                </>
-              )}
-            </Formik>
-          </View>
-          <StatusBar style="auto" />
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 160,
-              marginBottom: 30,
-            }}
-          >
-            <Text style={{ fontSize: 17, color: "#eee" }}>
-              Don't have an account?
-            </Text>
-            <TouchableOpacity
-              style={{ marginLeft: 4 }}
-              onPress={() => navigation.push("SignupScreen")}
-            >
-              <Text
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <ImageBackground
+        source={require("../assets/image/background2.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <KeyboardAvoidingView
+          style={styles.avoidKeyboard}
+          behavior="padding"
+          enabled
+          keyboardVerticalOffset={-1000}
+        >
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <View
                 style={{
-                  color: "#7842e5",
-                  fontSize: 17,
-                  fontWeight: "bold",
+                  marginTop: 150,
+                  alignSelf: "flex-start",
+                  paddingHorizontal: 30,
                 }}
               >
-                Sign up
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </ScrollView>
-    </KeyboardAvoidingView>
-    </ImageBackground>
+                <Text
+                  style={{
+                    fontSize: 36,
+                    fontWeight: "bold",
+                    color: "#7842e5",
+                  }}
+                  adjustsFontSizeToFit
+                >
+                  Login
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: "#7842e5",
+                    marginVertical: 10,
+                  }}
+                >
+                  Please sign in to continue.
+                </Text>
+              </View>
+              <View style={styles.form}>
+                <Formik
+                  initialValues={{
+                    email: "",
+                    password: "",
+                  }}
+                  onSubmit={(values) => {
+                    controlSubmit(values);
+                  }}
+                  validationSchema={validationSchema}
+                  validateOnMount={true}
+                >
+                  {({
+                    handleChange,
+                    values,
+                    handleSubmit,
+                    errors,
+                    isValid,
+                    touched,
+                    handleBlur,
+                  }) => (
+                    <>
+                      <InputField
+                        name="email"
+                        value={values.email}
+                        onChangeText={handleChange("email")}
+                        onBlur={handleBlur("email")}
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        returnKeyType="done"
+                        autoCapitalize="none"
+                        iconName="mail"
+                        iconColor="grey"
+                      />
+                      <ErrorMessage
+                        errorValue={touched.email && errors.email}
+                      />
+
+                      <InputField
+                        name="password"
+                        value={values.password}
+                        onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
+                        placeholder="Password"
+                        returnKeyType="done"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
+                        iconName="lock"
+                        iconColor="grey"
+                      />
+                      <ErrorMessage
+                        errorValue={touched.password && errors.password}
+                      />
+
+                      <InputButton
+                        onPress={handleSubmit}
+                        disabled={!isValid}
+                        buttonType="solid"
+                        title="LOGIN"
+                        buttonColor="#7842e5"
+                      />
+                    </>
+                  )}
+                </Formik>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 160,
+                  marginBottom: 30,
+                }}
+              >
+                <Text style={{ fontSize: 17, color: "#eee" }}>
+                  Don't have an account?
+                </Text>
+                <TouchableOpacity
+                  style={{ marginLeft: 4 }}
+                  onPress={() => navigation.push("SignupScreen")}
+                >
+                  <Text
+                    style={{
+                      color: "#7842e5",
+                      fontSize: 17,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Sign up
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   View,
@@ -76,7 +75,7 @@ const SignupScreen = ({ navigation }) => {
         });
       });
   }, [Submit]);
-  
+
   // User Details
   useEffect(() => {
     if (!Submit) {
@@ -146,170 +145,177 @@ const SignupScreen = ({ navigation }) => {
       });
   }, [Token]);
   return (
-    <ImageBackground source={require("../assets/image/background2.jpg")} style={{flex: 1}} resizeMode="cover">
-    <KeyboardAvoidingView
-      style={styles.avoidKeyboard}
-      behavior="padding"
-      enabled
-      keyboardVerticalOffset={-1000}
-    >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={styles.container}>
-          <TouchableOpacity
-            style={{
-              alignSelf: "flex-start",
-              marginTop: 30,
-              paddingHorizontal: 30,
-            }}
-            onPress={() => navigation.goBack()}
-          >
-            <MaterialCommunityIcons
-              name="keyboard-backspace"
-              size={36}
-              color={"#eee"}
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: 36,
-              fontWeight: "bold",
-              marginTop: 40,
-              alignSelf: "flex-start",
-              paddingHorizontal: 30,
-              color: "#7842e5",
-            }}
-            adjustsFontSizeToFit
-          >
-            Create Account
-          </Text>
-          <View style={styles.form}>
-            <Formik
-              initialValues={{
-                fullname: "",
-                email: "",
-                password: "",
-                repeat_password: "",
-              }}
-              onSubmit={(values) => {
-                controlSubmit(values);
-              }}
-              validationSchema={validationSchema}
-              validateOnMount={true}
-            >
-              {({
-                handleChange,
-                values,
-                handleSubmit,
-                errors,
-                isValid,
-                touched,
-                handleBlur,
-              }) => (
-                <>
-                  <InputField
-                    name="fullname"
-                    value={values.fullname}
-                    onChangeText={handleChange("fullname")}
-                    onBlur={handleBlur("fullname")}
-                    placeholder="Username"
-                    returnKeyType="done"
-                    iconName="user"
-                    iconColor="gray"
-                  />
-                  <ErrorMessage
-                    errorValue={touched.fullname && errors.fullname}
-                  />
-
-                  <InputField
-                    name="email"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    iconName="mail"
-                    iconColor="gray"
-                  />
-                  <ErrorMessage errorValue={touched.email && errors.email} />
-
-                  <InputField
-                    name="password"
-                    value={values.password}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    placeholder="Password"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                    iconName="lock"
-                    iconColor="gray"
-                  />
-                  <ErrorMessage
-                    errorValue={touched.password && errors.password}
-                  />
-
-                  <InputField
-                    name="repeat_password"
-                    value={values.repeat_password}
-                    onChangeText={handleChange("repeat_password")}
-                    onBlur={handleBlur("repeat_password")}
-                    placeholder="Confirm password"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                    iconName="unlock"
-                    iconColor="gray"
-                  />
-                  <ErrorMessage
-                    errorValue={
-                      touched.repeat_password && errors.repeat_password
-                    }
-                  />
-
-                  <InputButton
-                    onPress={handleSubmit}
-                    disabled={!isValid}
-                    buttonType="solid"
-                    title="SIGN UP"
-                    buttonColor="#7842e5"
-                  />
-                </>
-              )}
-            </Formik>
-          </View>
-          <StatusBar style="auto" />
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 100,
-              marginBottom: 25,
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ fontSize: 17, color: "#eee" }}>
-              Already have a account?
-            </Text>
-            <TouchableOpacity
-              onPress={() => navigation.push("LoginScreen")}
-              style={{ marginLeft: 4 }}
-            >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <ImageBackground
+        source={require("../assets/image/background2.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <KeyboardAvoidingView
+          style={styles.avoidKeyboard}
+          behavior="padding"
+          enabled
+          keyboardVerticalOffset={-1000}
+        >
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-start",
+                  marginTop: 30,
+                  paddingHorizontal: 30,
+                }}
+                onPress={() => navigation.goBack()}
+              >
+                <MaterialCommunityIcons
+                  name="keyboard-backspace"
+                  size={36}
+                  color={"#eee"}
+                />
+              </TouchableOpacity>
               <Text
                 style={{
-                  color: "#7842e5",
-                  fontSize: 17,
+                  fontSize: 36,
                   fontWeight: "bold",
+                  marginTop: 40,
+                  alignSelf: "flex-start",
+                  paddingHorizontal: 30,
+                  color: "#7842e5",
+                }}
+                adjustsFontSizeToFit
+              >
+                Create Account
+              </Text>
+              <View style={styles.form}>
+                <Formik
+                  initialValues={{
+                    fullname: "",
+                    email: "",
+                    password: "",
+                    repeat_password: "",
+                  }}
+                  onSubmit={(values) => {
+                    controlSubmit(values);
+                  }}
+                  validationSchema={validationSchema}
+                  validateOnMount={true}
+                >
+                  {({
+                    handleChange,
+                    values,
+                    handleSubmit,
+                    errors,
+                    isValid,
+                    touched,
+                    handleBlur,
+                  }) => (
+                    <>
+                      <InputField
+                        name="fullname"
+                        value={values.fullname}
+                        onChangeText={handleChange("fullname")}
+                        onBlur={handleBlur("fullname")}
+                        placeholder="Username"
+                        returnKeyType="done"
+                        iconName="user"
+                        iconColor="gray"
+                      />
+                      <ErrorMessage
+                        errorValue={touched.fullname && errors.fullname}
+                      />
+
+                      <InputField
+                        name="email"
+                        value={values.email}
+                        onChangeText={handleChange("email")}
+                        onBlur={handleBlur("email")}
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        returnKeyType="done"
+                        autoCapitalize="none"
+                        iconName="mail"
+                        iconColor="gray"
+                      />
+                      <ErrorMessage
+                        errorValue={touched.email && errors.email}
+                      />
+
+                      <InputField
+                        name="password"
+                        value={values.password}
+                        onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
+                        placeholder="Password"
+                        returnKeyType="done"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
+                        iconName="lock"
+                        iconColor="gray"
+                      />
+                      <ErrorMessage
+                        errorValue={touched.password && errors.password}
+                      />
+
+                      <InputField
+                        name="repeat_password"
+                        value={values.repeat_password}
+                        onChangeText={handleChange("repeat_password")}
+                        onBlur={handleBlur("repeat_password")}
+                        placeholder="Confirm password"
+                        returnKeyType="done"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
+                        iconName="unlock"
+                        iconColor="gray"
+                      />
+                      <ErrorMessage
+                        errorValue={
+                          touched.repeat_password && errors.repeat_password
+                        }
+                      />
+
+                      <InputButton
+                        onPress={handleSubmit}
+                        disabled={!isValid}
+                        buttonType="solid"
+                        title="SIGN UP"
+                        buttonColor="#7842e5"
+                      />
+                    </>
+                  )}
+                </Formik>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginTop: 100,
+                  marginBottom: 25,
+                  alignItems: "center",
                 }}
               >
-                Sign in
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </ScrollView>
-    </KeyboardAvoidingView>
-    </ImageBackground>
+                <Text style={{ fontSize: 17, color: "#eee" }}>
+                  Already have a account?
+                </Text>
+                <TouchableOpacity
+                  onPress={() => navigation.push("LoginScreen")}
+                  style={{ marginLeft: 4 }}
+                >
+                  <Text
+                    style={{
+                      color: "#7842e5",
+                      fontSize: 17,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Sign in
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
