@@ -7,31 +7,65 @@ import {
   FlatList,
   ImageBackground,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
-import BottomTabs from "../Components/utility/BottomTabs";
+
+const fetchVideos = async () => {
+  const response = await fetch("https://darkvilla.onrender.com/api/video", {
+    method: "GET",
+  });
+  const data = await response.json();
+  return sortedData(data);
+};
+
+const fetchMovies = async () => {
+  const response = await fetch("https://darkvilla.onrender.com/api/movie", {
+    method: "GET",
+  });
+  const data = await response.json();
+  return sortedData(data);
+};
+
+const sortedData = (data) => {
+  return data
+    .sort((a, b) => {
+      return b.likes.length - a.likes.length;
+    })
+    .slice(0, 20);
+};
 
 const PopularScreen = ({ navigation, route }) => {
-  const data = route.params.data;
+  const [data, setData] = useState([]);
   const screenName = route.params.screenName;
-  const sortedData = data.sort((a, b) => {
-    return b.likes.length - a.likes.length;
-  }).slice(0, 20);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (screenName === "Popular Videos") {
+        const response = await fetchVideos();
+        setData(response);
+      } else if (screenName === "Popular Movies") {
+        const response = await fetchMovies();
+        setData(response);
+      }
+    };
+    fetchData();
+  }, [screenName]);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-      <ImageBackground source={require("../assets/image/background1.jpg")} style={{flex: 1}} resizeMode="cover">
-      <View style={styles.container}>
-        <Header navigation={navigation} screenName={screenName} />
-        <PopularList
-          navigation={navigation}
-          sortedData={sortedData}
-          screenName={screenName}
-        />
-      </View>
-      <View style={styles.wrapper}>
-        {screenName === "Popular Videos" ? <BottomTabs navigation={navigation} tabName="Home" /> : <BottomTabs navigation={navigation} tabName="Movie" />}
-      </View>
+      <ImageBackground
+        source={require("../assets/image/background1.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View style={styles.container}>
+          <Header navigation={navigation} screenName={screenName} />
+          <PopularList
+            navigation={navigation}
+            data={data}
+            screenName={screenName}
+          />
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -49,7 +83,7 @@ const Header = ({ navigation, screenName }) => (
   </View>
 );
 
-const PopularList = ({ navigation, sortedData, screenName }) => (
+const PopularList = ({ navigation, data, screenName }) => (
   <View
     style={{
       width: "100%",
@@ -58,7 +92,7 @@ const PopularList = ({ navigation, sortedData, screenName }) => (
     }}
   >
     <FlatList
-      data={sortedData}
+      data={data}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={{
@@ -70,32 +104,23 @@ const PopularList = ({ navigation, sortedData, screenName }) => (
             borderBottomWidth: 0.5,
           }}
           onPress={() => {
-            screenName === "Popular Posts"
-              ? navigation.push("HomeScreen", item)
-              : (screenName === "Popular Videos"
-                  ? navigation.push("VideoPlayScreen", item)
-                  : navigation.push("MoviePlayScreen", item));
+            screenName === "Popular Videos"
+              ? navigation.push("VideoPlayScreen", item)
+              : navigation.push("MoviePlayScreen", item);
           }}
         >
           <View style={{ width: "92%", flexDirection: "row" }}>
-            <Image
-              source={
-                (screenName ==="Popular Posts"
-                  ? { uri: item.imageUrl }
-                  : { uri: item.thumbnailUrl })
-              }
-              style={styles.story}
-            />
-            <View style={{marginHorizontal: 15, justifyContent: 'center'}}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "700",
-                color: "white",
-              }}
-            >
-              {(screenName === "Popular Posts" ? item.caption : item.title)}
-            </Text>
+            <Image source={{ uri: item.thumbnailUrl }} style={styles.story} />
+            <View style={{ flex: 1, marginHorizontal: 15, justifyContent: "center" }}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: "700",
+                  color: "white",
+                }}
+              >
+                {item.title}
+              </Text>
             </View>
           </View>
 
@@ -125,7 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 6
+    marginVertical: 6,
   },
   headerText: {
     color: "#fff",
@@ -137,12 +162,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 5,
-  },
-  wrapper: {
-    position: "absolute",
-    width: "100%",
-    bottom: 0,
-    zIndex: 999,
   },
 });
 export default PopularScreen;

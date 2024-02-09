@@ -13,6 +13,7 @@ import VideoPlay from "../Components/videos/VideoPlay";
 import { useSelector } from "react-redux";
 import { Divider } from "react-native-elements";
 import downloader from "../downloader";
+import LottieView from "lottie-react-native";
 const MoviePlayScreen = ({ route }) => {
   const [movie, setMovie] = useState(route.params);
   const { token } = useSelector((state) => state.tokenReducer);
@@ -21,6 +22,7 @@ const MoviePlayScreen = ({ route }) => {
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const [submitLikes, setSubmitLikes] = useState(false);
+  const [progress, setProgress] = useState(0);
   //Update Movie Likes
   useEffect(() => {
     if (!submitLikes) {
@@ -53,36 +55,69 @@ const MoviePlayScreen = ({ route }) => {
   }, [submitLikes]);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-      <ImageBackground source={require("../assets/image/background1.jpg")} style={{flex: 1}} resizeMode="cover">
-      <VideoPlay
-        videoUrl={movie.movieUrl}
-        inFullscreen={inFullscreen}
-        setInFullscreen={setInFullscreen}
-        screenWidth={screenWidth}
-        screenHeight={screenHeight}
-        type="movie"
-      />
-      {!inFullscreen ? (
-        <>
-          <Divider width={1} orientation="vertical" />
-          <MovieTitle title={movie.title} />
-          <View style={{ padding: 10 }}>
-            <MovieDetails
-              movie={movie}
-              setSubmitLikes={setSubmitLikes}
-              profile={profile}
+      <ImageBackground
+        source={require("../assets/image/background1.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <VideoPlay
+          videoUrl={movie.movieUrl}
+          inFullscreen={inFullscreen}
+          setInFullscreen={setInFullscreen}
+          screenWidth={screenWidth}
+          screenHeight={screenHeight}
+          type="movie"
+        />
+        {!inFullscreen ? (
+          <>
+            <Divider width={1} orientation="vertical" />
+            <MovieTitle title={movie.title} />
+            <View style={{ padding: 10 }}>
+              <MovieDetails
+                movie={movie}
+                setSubmitLikes={setSubmitLikes}
+                profile={profile}
+                setProgress={setProgress}
+              />
+              {movie.likes.length !== 0 ? (
+                <Likes videoLikes={movie.likes} />
+              ) : (
+                <></>
+              )}
+            </View>
+            <VideoFooter movie={movie} />
+          </>
+        ) : (
+          <></>
+        )}
+        {progress > 0 && progress < 100 ? (
+          <View
+            style={{
+              height: "100%",
+              width: "100%",
+              position: "absolute",
+              backgroundColor: "#000",
+              opacity: 0.8,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LottieView
+              style={{ height: 200 }}
+              source={require("../assets/animations/loading.json")}
+              autoPlay
             />
-            {movie.likes.length !== 0 ? (
-              <Likes videoLikes={movie.likes} />
-            ) : (
-              <></>
-            )}
+            <View style={{ position: "absolute" }}>
+              <Text
+                style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
+              >
+                {progress}%
+              </Text>
+            </View>
           </View>
-          <VideoFooter movie={movie} />
-        </>
-      ) : (
-        <></>
-      )}
+        ) : (
+          <></>
+        )}
       </ImageBackground>
     </SafeAreaView>
   );
@@ -112,7 +147,7 @@ const MovieTitle = ({ title }) => (
     </View>
   </View>
 );
-const MovieDetails = ({ movie, setSubmitLikes, profile }) => (
+const MovieDetails = ({ movie, setSubmitLikes, profile, setProgress }) => (
   <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
     <View style={styles.leftFooterIconsContainer}>
       {/* Likes */}
@@ -147,7 +182,15 @@ const MovieDetails = ({ movie, setSubmitLikes, profile }) => (
         onPress={() =>
           downloader(
             movie.movieUrl,
-            `${movie.title}.${movie.movieUrl.split(".").pop()}`
+            `${movie.title}.${movie.movieUrl.split(".").pop()}`,
+            (onProgress) => {
+              const progressPercentage =
+                (onProgress.totalBytesWritten /
+                  onProgress.totalBytesExpectedToWrite) *
+                100;
+              setProgress(Math.floor(progressPercentage));
+            },
+            setProgress
           )
         }
       >

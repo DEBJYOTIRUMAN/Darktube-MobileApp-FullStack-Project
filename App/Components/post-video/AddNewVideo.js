@@ -2,13 +2,17 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import FormikVideoUploader from "./FormikVideoUploader";
 
-export default function AddNewVideo({navigation}) {
+export default function AddNewVideo({ navigation, progress, setProgress }) {
   return (
     <View style={styles.container}>
       <Header navigation={navigation} />
-      <FormikVideoUploader navigation={navigation}/>
+      <FormikVideoUploader
+        navigation={navigation}
+        progress={progress}
+        setProgress={setProgress}
+      />
     </View>
-  )
+  );
 }
 const Header = ({ navigation }) => (
   <View style={styles.headerContainer}>
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 5
+    marginVertical: 5,
   },
   headerText: {
     color: "#fff",

@@ -164,17 +164,17 @@ const SearchResult = ({ searchData, navigation, setQuery }) => (
         >
           <View style={{ width: "92%", flexDirection: "row" }}>
             <Image source={{ uri: item.thumbnailUrl }} style={styles.story} />
+            <View style={{flex: 1, justifyContent: "center", marginHorizontal: 15}}>
             <Text
               style={{
                 fontSize: 14,
                 fontWeight: "700",
-                marginHorizontal: 15,
-                textAlignVertical: "center",
                 color: "white",
               }}
             >
               {item.title}
             </Text>
+            </View>
           </View>
 
           <View

@@ -1,3 +1,4 @@
+import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -120,6 +121,7 @@ export default function CommentsModal({
         />
         </ImageBackground>
       </View>
+      <StatusBar backgroundColor="#eee" />
     </View>
   );
 }
@@ -172,7 +174,6 @@ const VideoDetails = ({
           fontWeight: "bold",
           marginLeft: 8,
           textAlignVertical: "center",
-          textAlign: "justify",
         }}
       >
         {updateVideo.userName}
@@ -225,7 +226,6 @@ const Comments = ({
                 color: "white",
                 fontWeight: "bold",
                 marginHorizontal: 8,
-                textAlign: "justify",
               }}
             >
               {comment.userName}

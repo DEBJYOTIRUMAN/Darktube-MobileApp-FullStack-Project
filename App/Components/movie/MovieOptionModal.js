@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { Divider } from "react-native-elements";
 import downloader from "../../downloader";
 export default function MovieOptionModal({
   movie,
   setMovieOptionModal,
   navigation,
+  setProgress
 }) {
   return (
     <View style={styles.modalContainer}>
@@ -32,7 +39,15 @@ export default function MovieOptionModal({
               setMovieOptionModal(false),
                 downloader(
                   movie.movieUrl,
-                  `${movie.title}.${movie.movieUrl.split('.').pop()}`
+                  `${movie.title}.${movie.movieUrl.split(".").pop()}`,
+                  (onProgress) => {
+                    const progressPercentage =
+                      (onProgress.totalBytesWritten /
+                        onProgress.totalBytesExpectedToWrite) *
+                      100;
+                    setProgress(Math.floor(progressPercentage));
+                  },
+                  setProgress
                 );
             }}
           >

@@ -2,7 +2,7 @@ import { Image, TouchableOpacity, Modal } from "react-native";
 import React, { useState } from "react";
 import MovieOptionModal from "./MovieOptionModal";
 
-const Movie = ({ movie, navigation }) => {
+const Movie = ({ movie, navigation, setProgress }) => {
   const [movieOptionModal, setMovieOptionModal] = useState(false);
   return (
     <>
@@ -44,6 +44,7 @@ const Movie = ({ movie, navigation }) => {
           movie={movie}
           setMovieOptionModal={setMovieOptionModal}
           navigation={navigation}
+          setProgress={setProgress}
         />
       </Modal>
     </>

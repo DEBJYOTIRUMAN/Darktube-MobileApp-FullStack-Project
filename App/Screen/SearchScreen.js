@@ -163,17 +163,17 @@ const SearchResult = ({ searchData, navigation, setQuery }) => (
         >
           <View style={{ width: "92%", flexDirection: "row" }}>
             <Image source={{ uri: item.profilePic }} style={styles.story} />
+            <View style={{flex: 1, justifyContent: "center", marginHorizontal: 10}}>
             <Text
               style={{
                 fontSize: 14,
                 fontWeight: "700",
-                marginHorizontal: 10,
-                textAlignVertical: "center",
                 color: "white",
               }}
             >
               {item.userName}
             </Text>
+            </View>
           </View>
 
           <View

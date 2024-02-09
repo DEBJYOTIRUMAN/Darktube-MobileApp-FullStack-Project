@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Divider } from "react-native-elements";
+import { StatusBar } from "expo-status-bar";
 export default function PicUploadModal({
   setModalVisible,
   setLocalUri,
@@ -27,6 +28,7 @@ export default function PicUploadModal({
         />
         </ImageBackground>
       </View>
+      <StatusBar backgroundColor="#eee" />
     </View>
   );
 }

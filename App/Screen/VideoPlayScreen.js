@@ -17,6 +17,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import VideoPlay from "../Components/videos/VideoPlay";
 import downloader from "../downloader";
+import LottieView from "lottie-react-native";
 
 const VideoPlayScreen = ({ navigation, route }) => {
   const [updateVideo, setUpdateVideo] = useState(route.params);
@@ -26,6 +27,7 @@ const VideoPlayScreen = ({ navigation, route }) => {
   const [inFullscreen, setInFullscreen] = useState(false);
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
+  const [progress, setProgress] = useState(0);
 
   //Update Video Likes
   useEffect(() => {
@@ -84,6 +86,7 @@ const VideoPlayScreen = ({ navigation, route }) => {
                 profile={profile}
                 navigation={navigation}
                 screenHeight={screenHeight}
+                setProgress={setProgress}
               />
               {updateVideo.likes.length !== 0 ? (
                 <Likes
@@ -120,6 +123,34 @@ const VideoPlayScreen = ({ navigation, route }) => {
               <></>
             )}
           </>
+        ) : (
+          <></>
+        )}
+        {progress > 0 && progress < 100 ? (
+          <View
+            style={{
+              height: "100%",
+              width: "100%",
+              position: "absolute",
+              backgroundColor: "#000",
+              opacity: 0.8,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LottieView
+              style={{ height: 200 }}
+              source={require("../assets/animations/loading.json")}
+              autoPlay
+            />
+            <View style={{ position: "absolute" }}>
+              <Text
+                style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
+              >
+                {progress}%
+              </Text>
+            </View>
+          </View>
         ) : (
           <></>
         )}
@@ -160,6 +191,7 @@ const VideoDetails = ({
   profile,
   navigation,
   screenHeight,
+  setProgress,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -200,6 +232,14 @@ const VideoDetails = ({
               downloader(
                 updateVideo.videoUrl,
                 `${updateVideo.title}.${updateVideo.videoUrl.split(".").pop()}`,
+                (onProgress) => {
+                  const progressPercentage =
+                    (onProgress.totalBytesWritten /
+                      onProgress.totalBytesExpectedToWrite) *
+                    100;
+                  setProgress(Math.floor(progressPercentage));
+                },
+                setProgress
               )
             }
           >
@@ -265,7 +305,9 @@ const VideoFooter = ({ updateVideo, profile, navigation }) => {
     if (profile.userId === updateVideo.userId) {
       return;
     } else {
-      fetch(`https://darkvilla.onrender.com/api/profile/user/${updateVideo.userId}`)
+      fetch(
+        `https://darkvilla.onrender.com/api/profile/user/${updateVideo.userId}`
+      )
         .then((res) => res.json())
         .then((document) => {
           setCheckProfile(document);
@@ -388,7 +430,6 @@ const Comments = ({ oneComment, navigation, profile }) => {
             color: "white",
             fontWeight: "bold",
             marginHorizontal: 6,
-            textAlign: "justify",
           }}
         >
           {oneComment.userName}

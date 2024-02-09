@@ -43,7 +43,6 @@ const VideoScreen = ({ navigation, route }) => {
         <VideoHeader
           navigation={navigation}
           profile={profile}
-          videos={videos}
         />
         <ScrollView>
           {videos.map((video, index) => (
@@ -60,7 +59,7 @@ const VideoScreen = ({ navigation, route }) => {
     </SafeAreaView>
   );
 };
-const VideoHeader = ({ navigation, profile, videos }) => {
+const VideoHeader = ({ navigation, profile }) => {
   return (
     <View style={styles.headerContainer}>
       <TouchableOpacity>
@@ -86,7 +85,6 @@ const VideoHeader = ({ navigation, profile, videos }) => {
         <TouchableOpacity
           onPress={() =>
             navigation.push("PopularScreen", {
-              data: videos,
               screenName: "Popular Videos",
             })
           }
